@@ -2,6 +2,50 @@
 <html>
 <head>
 <link rel="stylesheet" href="styles/login.css"/>
+<script type="text/javascript" src="scripts/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/basevalue.js"></script>
+<script type="text/javascript">
+	$(function(){//页面加载后调用
+		//定义登录按钮单击事件
+		$('#login').click(login);
+	})
+	//定义登录函数
+	function login(){
+		//获取请求参数
+		var acc=$('#count').val().trim();
+		var pwd=$('#password').val().trim();
+		$('#count_span').empty();
+		$('#password_span').empty();
+		//检测参数格式
+		var eswitch=true; //设置检测开关
+		if(!acc){
+			$('#count_span').html("用户名为空").css({"color":"red",
+														"font-size":"5px"});
+			eswitch=false;
+		}
+		if(!pwd){
+			$('#password_span').html("密码为空").css({"color":"red",
+												"font-size":"5px"});
+			eswitch=false;
+		}
+		if(eswitch){
+			$.ajax({
+				url:base_path+"/user/login.do",
+				type:"post",
+				data:{"acc":acc,"password":pwd},
+				dataType:"json",
+				success:function(){
+					
+				},
+				error:function(){
+					alert("登录异常");
+				},
+			});
+		}
+		
+	}
+	
+</script>
 </head>
 	<body>
 		<div class="global">
@@ -16,11 +60,13 @@
 					<dt>
 						<div class='letter'>
 							用户名:&nbsp;<input type="text" name="" id="count" tabindex='1'/>
+							<span id="count_span"></span>
 						</div>
 					</dt>
 					<dt>
 						<div class='letter'>
 							密&nbsp;&nbsp;&nbsp;码:&nbsp;<input type="password" name="" id="password" tabindex='2'/>
+							<span id="password_span"></span>
 						</div>
 					</dt>
 					<dt>
