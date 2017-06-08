@@ -1,1 +1,1 @@
-base_path="http://localhost:8080/cloudnote"
+base_path="http://localhost:8080/cloud_note_home"
