@@ -4,58 +4,69 @@
 <link rel="stylesheet" href="styles/login.css"/>
 <script type="text/javascript" src="scripts/jquery.min.js"></script>
 <script type="text/javascript" src="scripts/basevalue.js"></script>
+<script type="text/javascript" src="scripts/login.js"></script>
 <script type="text/javascript">
 	$(function(){//页面加载后调用
 		//定义登录按钮单击事件
 		$('#login').click(login);
+		$('#regist_button').click(regist);
 	})
-	//定义登录函数
-	function login(){
-		//获取请求参数
-		var acc=$('#count').val().trim();
-		var pwd=$('#password').val().trim();
-		$('#count_span').empty();
-		$('#password_span').empty();
-		//检测参数格式
-		var eswitch=true; //设置检测开关
-		if(!acc){
-			$('#count_span').html("用户名为空").css({"color":"red",
-														"font-size":"5px"});
-			eswitch=false;
+	function regist(){
+		//获取各项请求参数
+		var name=$('#regist_username').val();
+		var nick=$('#nickname').val();
+		var password=$('#regist_password').val();
+		var f_password=$('#final_password').val();
+		//进行请求参数检查
+		var ok=true;
+		$('#warning_1 span').empty();
+		$('#warning_2 span').empty();
+		$('#warning_3 span').empty();
+		if(!name){
+			var ok=false;
+			$('#warning_1').show();
+			$('#warning_1 span').html('用户名为空');
 		}
-		if(!pwd){
-			$('#password_span').html("密码为空").css({"color":"red",
-												"font-size":"5px"});
-			eswitch=false;
+		if(!password){
+			var ok=false;
+			$('#warning_2').show();
+			$('#warning_2 span').html('密码为空');
+		}else if(password.length<6){
+			var ok=false;
+			$('#warning_2').show();
+			$('#warning_2 span').html('密码过短');
 		}
-		if(eswitch){
+		if(!f_password){
+			var ok=false;
+			$('#warning_3').show();
+			$('#warning_3 span').html('确认密码为空');
+		}else if(f_password!=password){
+			var ok=false;
+			$('#warning_3').show();
+			$('#warning_3 span').html('密码输入不一致');
+		}
+		if(ok){
 			$.ajax({
-				url:base_path+"/user/login.do",
+				url:base_path+"/user/regist.do",
 				type:"post",
-				data:{"acc":acc,"pwd":pwd},
+				data:{"name":name,"nick":nick,"password":password},
 				dataType:"json",
 				success:function(result){
-					var status=result.status
-					switch(status){
-						case 0:
-							window.location.href="edit.html";
-							break;
-						case 1:
-							$('#count_span').html(result.msg).css({"color":"red",
-								"font-size":"5px"});
-							break;
-						case 2:
-							$('#password_span').html(result.msg).css({"color":"red",
-								"font-size":"5px"});
-							break;
-					}
+						var status=result.status;
+						switch(status){
+							case 0: alert(result.msg);
+									$('#back').click();
+									break;
+							case 1: $('#warning_1').show();
+									$('#warning_1 span').html(result.msg);
+									break;
+						}
 				},
 				error:function(){
-					alert("登录异常");
+					alert(1);
 				},
 			});
 		}
-		
 	}
 	
 </script>
@@ -112,7 +123,7 @@
 					<dt>
 						<div class='letter'>
 							密&nbsp;&nbsp;&nbsp;码:&nbsp;<input type="password" name="" id="regist_password" tabindex='7'/>
-							<div class='warning' id='warning_2'><span>密码长度过短</span></div>
+							<div class='warning' id='warning_2'><span></span></div>
 						</div>
 					</dt>
 					<dt>

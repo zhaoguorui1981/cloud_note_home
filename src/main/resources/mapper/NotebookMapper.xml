@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.cloudnote.dao.NotebookDAO">
+	<select id="findNotebookById" parameterType="String" resultType="cn.tedu.cloudnote.entity.Notebook">
+		SELECT * FROM cn_notebook
+		WHERE cn_user_id=#{id}
+	</select>
+	<select id="findNotebookByName" parameterType="String" resultType="cn.tedu.cloudnote.entity.Notebook">
+		SELECT note.* 
+		FROM cn_user user,cn_notebook note
+		WHERE user.cn_user_id=note.cn_user_id
+		AND user.cn_user_name=#{name}
+	</select>
+
+</mapper>

@@ -8,4 +8,5 @@ import cn.tedu.cloudnote.entity.User;
 @Repository("UserDAO")
 public interface UserDAO extends Serializable {
 	public User findUserByName(String name);
+	public void save(User u);
 }
