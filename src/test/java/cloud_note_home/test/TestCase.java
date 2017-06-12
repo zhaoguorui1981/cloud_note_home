@@ -1,10 +1,12 @@
 package cloud_note_home.test;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
 import cloud_note_home.init.BaseTest;
+import cn.tedu.cloudnote.dao.NoteDAO;
 import cn.tedu.cloudnote.dao.NotebookDAO;
 import cn.tedu.cloudnote.dao.UserDAO;
 import cn.tedu.cloudnote.entity.Notebook;
@@ -37,7 +39,7 @@ public class TestCase extends BaseTest{
 		System.out.println(us.regist("liuxiaojing", "123456", "lxf"));
 	}
 	@Test
-	public void noteDAOtest(){
+	public void notebookDAOtest(){
 		NotebookDAO dao=ac.getBean("notebookDAO",NotebookDAO.class);
 		List<Notebook>list=dao.findNotebookByName("demo");
 		for(Notebook n:list){
@@ -45,4 +47,12 @@ public class TestCase extends BaseTest{
 		}
 		
 	}
-}
+	@Test
+	public void noteDAOtest(){
+		NoteDAO dao=ac.getBean("noteDAO",NoteDAO.class);
+		List<Map>list=dao.findNoteByNotebookId("0037215c-09fe-4eaa-aeb5-25a340c6b39b");
+		System.out.println(list);
+		}
+		
+	}
+

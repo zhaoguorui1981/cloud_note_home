@@ -12,14 +12,14 @@ public class Notebook implements Serializable{
 	private Timestamp cn_notebook_createtime;
 	public String getCn_notebook_id() {
 		return cn_notebook_id;
-	}
+	}	
 	public void setCn_notebook_id(String cn_notebook_id) {
 		this.cn_notebook_id = cn_notebook_id;
 	}
 	public String getCn_user_id() {
 		return cn_user_id;
 	}
-	public void setCn_user_id(String cn_user_id) {
+	public void setCn_user_id(String cn_user_id) { 
 		this.cn_user_id = cn_user_id;
 	}
 	public String getCn_notebook_type_id() {
