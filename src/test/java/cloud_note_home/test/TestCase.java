@@ -50,7 +50,7 @@ public class TestCase extends BaseTest{
 	@Test
 	public void noteDAOtest(){
 		NoteDAO dao=ac.getBean("noteDAO",NoteDAO.class);
-		List<Map>list=dao.findNoteByNotebookId("0037215c-09fe-4eaa-aeb5-25a340c6b39b");
+		List<Map>list=dao.findNotesByNotebookId("0037215c-09fe-4eaa-aeb5-25a340c6b39b");
 		System.out.println(list);
 		}
 		

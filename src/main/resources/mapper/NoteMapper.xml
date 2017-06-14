@@ -2,9 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="cn.tedu.cloudnote.dao.NoteDAO">
-	<select id="findNoteByNotebookId" parameterType="String" resultType="map">
+	<select id="findNotesByNotebookId" parameterType="String" resultType="map">
 		SELECT cn_note_id,cn_note_title
 		FROM cn_note
 		WHERE cn_notebook_id=#{notebookId}
 	</select>
+	<select id="findNoteByNoteId" parameterType="string" resultType="cn.tedu.cloudnote.entity.Note">
+		SELECT * 
+		FROM cn_note
+		WHERE cn_note_id=#{noteId}
+	</select>
+	<update id="updateNote" parameterType="cn.tedu.cloudnote.entity.Note">
+		UPDATE cn_note
+		SET cn_note_title=#{cn_note_title},cn_note_body=#{cn_note_body},cn_note_last_modify_time=#{cn_note_last_modify_time}
+		WHERE cn_note_id=#{cn_note_id}
+	</update>
 </mapper>

@@ -1,3 +1,4 @@
+//根据笔记本ID查找笔记列表
 function loadNotes(){
 	//去除样式
 	$("#book_ul").find('a').removeClass();
@@ -38,7 +39,7 @@ function loadNotes(){
 						sli+='</li>';
 					var $li=$(sli);
 					//为笔记绑定ID
-						$li.add("noteId",noteId);
+						$li.data("noteId",noteId);
 						$('#note_ul').append($li);
 				} 
 			}
@@ -46,4 +47,74 @@ function loadNotes(){
 		error:function(){alert("加载笔记列表失败")},
 	})
 
+}
+//根据笔记ID加载笔记内容和标题
+function loadNote(){
+	//高亮选中项
+	$('#note_ul').find('a').removeClass();
+	$(this).find('a').addClass('checked');
+	//获取请求参数
+	var noteId=$(this).data("noteId");
+	//校验参数
+	if(noteId){
+		$.ajax({
+			url:base_path+"/note/load.do",
+			type:"post",
+			data:{"noteId":noteId},
+			dataType:"json",
+			success:function(result){
+				if(result.status==0){
+					var title=result.data.cn_note_title;
+					var body=result.data.cn_note_body;
+					$('#input_note_title').val(title);
+					if(body){
+						um.setContent(body);
+					}else{
+						um.setContent("");
+					}
+				}
+			},
+			error:function(){alert("加载笔记失败")}
+		})
+	}else{
+		alert("系统繁忙,请重新登录")
+	}
+}
+
+//笔记修改更新
+function updateNote(){//更新笔记
+	//获取请求参数
+	var title=$('#input_note_title').val();
+	var body=um.getContent();
+	var noteId=$('#note_ul a.checked').parent().data("noteId");
+	//校验请求参数
+	if(!noteId){//需要选择笔记
+		alert("请选择笔记");
+	}else if(!title){//标题不能为空
+		$('#updatenote_msg').html("标题为空").css({"color":"red","font-size":'10px'})
+	}else{
+		//发送ajax请求
+		$.ajax({
+			url:base_path+"/note/update.do",
+			type:"post",
+			data:{"title":title,"body":body,"noteId":noteId},
+			dataType:"json",
+			success:function(result){
+				if(result.status==0){
+					console.log(result);
+					alert(result.msg);
+					var sli='';
+					sli+='<i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i>';
+					sli+= title;
+					sli+='<button type="button" class="btn btn-default btn-xs btn_position btn_slide_down">';
+					sli+='<i class="fa fa-chevron-down"></i>';
+					sli+='</button>';
+					$('#note_ul a.checked').html(sli)
+				}else{
+					alert(result.msg)
+				}
+			},
+			error:function(){alert("笔记保存失败")}
+		})
+	}
 }

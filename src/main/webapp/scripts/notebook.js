@@ -1,6 +1,7 @@
 function loadnotebooks(){
 	//获取请求参数
 	var userId=getCookie("userId");
+	if(userId){
 	//校验请求参数
 	//发送ajax请求
 	$.ajax({
@@ -30,4 +31,7 @@ function loadnotebooks(){
 		},
 		error:function(){alert("加载笔记本列表失败")},
 	})
+	}else{
+		window.location.href="log_in.html";
+	}
 }
