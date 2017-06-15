@@ -12,5 +12,15 @@
 		WHERE user.cn_user_id=note.cn_user_id
 		AND user.cn_user_name=#{name}
 	</select>
-
+	<insert id="saveNotebook" parameterType="cn.tedu.cloudnote.entity.Notebook">
+		INSERT INTO cn_notebook
+		(cn_notebook_id,cn_user_id,cn_notebook_type_id,cn_notebook_name,cn_notebook_desc,cn_notebook_createtime)
+		VALUES
+		(#{cn_notebook_id},#{cn_user_id},'5',#{cn_notebook_name},'',#{cn_notebook_createtime})
+	</insert>
+	<update id="renameByBookId" parameterType="cn.tedu.cloudnote.entity.Notebook">
+		UPDATE cn_notebook
+		SET cn_notebook_name=#{cn_notebook_name}
+		WHERE cn_notebook_id=#{cn_notebook_id}
+	</update>
 </mapper>

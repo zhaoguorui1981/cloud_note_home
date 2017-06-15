@@ -22,6 +22,7 @@
 		<script type="text/javascript" src="scripts/cookie_util.js"></script>
 		<script type="text/javascript" src="scripts/notebook.js"></script>
 		<script type="text/javascript" src="scripts/note.js"></script>
+		<script type="text/javascript" src="scripts/alert.js"></script>
 		<script type="text/javascript">
 			$(function(){
 				//1.页面加载完成后加载笔记本列表
@@ -36,15 +37,19 @@
 				$('#add_notebook').click(addNotebookWindow);
 				//6.取消消息框
 				$('#can').on('click','.cancle,.close',closeWindow);
+				//7.绑定笔记本增加按钮,添加笔记本
+				$('#can').on('click','#btn_createnotebook',addNotebook)
+				//8.激活增加笔记对话框
+				$('#add_note').click(addNoteWindow)
+				//9.绑定笔记对话框怎么笔记按钮,添加笔记
+				$('#can').on('click','#btn_createnote',addNote)
+				//plus-1.1 激活笔记本改名对话框
+				$('#book_ul').on('dblclick','li',renameNotebookWindow)
+				//puls-1.2 绑定重命名对话框确定按钮,为笔记本重新命名
+				$('#can').on('click','#btn_renamenotebook',renameNotebook)
 			})
-			function addNotebookWindow(){
-				$('#can').load("alert/alert_notebook.html")
-				$('.opacity_bg').show();
-			}
-			function closeWindow(){
-				$('#can').empty();
-				$('.opacity_bg').hide();
-			}
+			
+			
 		</script>
     </head>
     <body class="animated fadeIn">

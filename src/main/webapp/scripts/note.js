@@ -1,3 +1,55 @@
+//添加笔记标题
+function addNote(){
+		//获取请求参数
+		var noteTitle=$('#input_note').val().trim();
+		var userId=getCookie("userId");
+		var notebookId=$('#book_ul a.checked').parent().data("notebookId");
+		var ok=true;
+		//校验请求参数
+		if(!noteTitle){//笔记标题不能为空
+			ok=false;
+			$('#createnote_msg').html("笔记标题为空").css({"color":"red"});			
+		}
+		if(!notebookId){//笔记本ID不能为空
+			ok=false;
+			alert("请选择笔记本");
+		}
+		if(!userId){//用户ID不能为空
+			ok=false;
+			alert("系统错误,请重新登录");
+			window.location.href="log_in.html";
+		}
+		//校验重名笔记标题
+		var lis=$('#note_ul').children('li');
+		for (var i = 0; i < lis.length; i++) {
+			var existTitle=$(lis[i]).text().trim();
+			if(noteTitle==existTitle){
+				ok=false;
+				$('#createnote_msg').html("笔记名称已存在").css({"color":"red"});
+				break;
+			}
+		}
+		//校验结束,发送ajax请求
+		if(ok){
+			$.ajax({
+				url:base_path+"/note/add.do",
+				type:"post",
+				data:{"title":noteTitle,"userId":userId,"bookId":notebookId},
+				dataType:"json",
+				success:function(result){
+					if(result.status==0){
+						closeWindow()
+						var noteId=result.data.cn_note_id;
+						var title=result.data.cn_note_title;
+						createNoteLi(title,noteId);
+					}
+				},
+				error:function(){alert("笔记添加失败")},
+			})
+		}
+	}
+			
+
 //根据笔记本ID查找笔记列表
 function loadNotes(){
 	//去除样式
@@ -20,27 +72,7 @@ function loadNotes(){
 					var notetitle=notes[i].cn_note_title;//获取笔记名称
 					var noteId=notes[i].cn_note_id;//获取笔记ID
 					//插入笔记
-					var sli=""
-						sli+='<li class="online">';
-						sli+='		<a>';
-						sli+='			<i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i>';
-						sli+=           notetitle;
-						sli+='			<button type="button" class="btn btn-default btn-xs btn_position btn_slide_down">';
-						sli+='				<i class="fa fa-chevron-down"></i>';
-						sli+='			</button>';
-						sli+='		</a>';
-						sli+='		<div class="note_menu" tabindex="-1">';
-					    sli+='			<dl>';
-						sli+='				<dt><button type="button" class="btn btn-default btn-xs btn_move" title="移动至..."><i class="fa fa-random"></i></button></dt>';
-						sli+='				<dt><button type="button" class="btn btn-default btn-xs btn_share" title="分享"><i class="fa fa-sitemap"></i></button></dt>';
-						sli+='				<dt><button type="button" class="btn btn-default btn-xs btn_delete" title="删除"><i class="fa fa-times"></i></button></dt>';
-						sli+='			</dl>';
-						sli+='	    </div>';
-						sli+='</li>';
-					var $li=$(sli);
-					//为笔记绑定ID
-						$li.data("noteId",noteId);
-						$('#note_ul').append($li);
+					createNoteLi(notetitle,noteId);
 				} 
 			}
 		},
@@ -117,4 +149,30 @@ function updateNote(){//更新笔记
 			error:function(){alert("笔记保存失败")}
 		})
 	}
+}
+
+
+//封装创建笔记li方法
+function createNoteLi(notetitle,noteId){
+	var sli=""
+		sli+='<li class="online">';
+		sli+='		<a>';
+		sli+='			<i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i>';
+		sli+=           notetitle;
+		sli+='			<button type="button" class="btn btn-default btn-xs btn_position btn_slide_down">';
+		sli+='				<i class="fa fa-chevron-down"></i>';
+		sli+='			</button>';
+		sli+='		</a>';
+		sli+='		<div class="note_menu" tabindex="-1">';
+	    sli+='			<dl>';
+		sli+='				<dt><button type="button" class="btn btn-default btn-xs btn_move" title="移动至..."><i class="fa fa-random"></i></button></dt>';
+		sli+='				<dt><button type="button" class="btn btn-default btn-xs btn_share" title="分享"><i class="fa fa-sitemap"></i></button></dt>';
+		sli+='				<dt><button type="button" class="btn btn-default btn-xs btn_delete" title="删除"><i class="fa fa-times"></i></button></dt>';
+		sli+='			</dl>';
+		sli+='	    </div>';
+		sli+='</li>';
+	var $li=$(sli);
+	//为笔记绑定ID
+		$li.data("noteId",noteId);
+		$('#note_ul').append($li);
 }
