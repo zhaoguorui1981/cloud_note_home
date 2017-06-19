@@ -38,18 +38,28 @@
 				//6.取消消息框
 				$('#can').on('click','.cancle,.close',closeWindow);
 				//7.绑定笔记本增加按钮,添加笔记本
-				$('#can').on('click','#btn_createnotebook',addNotebook)
+				$('#can').on('click','#btn_createnotebook',addNotebook);
 				//8.激活增加笔记对话框
-				$('#add_note').click(addNoteWindow)
+				$('#add_note').click(addNoteWindow);
 				//9.绑定笔记对话框怎么笔记按钮,添加笔记
-				$('#can').on('click','#btn_createnote',addNote)
-				//plus-1.1 激活笔记本改名对话框
-				$('#book_ul').on('dblclick','li',renameNotebookWindow)
+				$('#can').on('click','#btn_createnote',addNote);
+				//plus-1.1 激活笔记本改名对话框;
+				$('#book_ul').on('dblclick','li',renameNotebookWindow);
 				//puls-1.2 绑定重命名对话框确定按钮,为笔记本重新命名
-				$('#can').on('click','#btn_renamenotebook',renameNotebook)
+				$('#can').on('click','#btn_renamenotebook',renameNotebook);
+				//11.弹出编辑按钮
+				$('#note_ul').on('click','li .btn_slide_down',showMenuBar);
+				//12.绑定单击body收回div菜单
+				$('body').click(closeMenuBar);
+				//13.弹出note删除对话框&绑定删除按钮删除当前note
+				$('#note_ul').on('click','.btn_delete',alertDeleteNoteWindow);
+				$('#can').on('click','#btn_deleteNote',deleteNote);
+				//14.弹出note移动对话框&绑定移动确定按钮移动当前note
+				$('#note_ul').on('click','.btn_move',alertMoveNoteWindow);
+				$('#can').on('click','#btn_movenote',moveNote);
+				
 			})
-			
-			
+
 		</script>
     </head>
     <body class="animated fadeIn">

@@ -6,6 +6,7 @@
 		SELECT cn_note_id,cn_note_title
 		FROM cn_note
 		WHERE cn_notebook_id=#{notebookId}
+		AND cn_note_status_id='1'
 	</select>
 	<select id="findNoteByNoteId" parameterType="string" resultType="cn.tedu.cloudnote.entity.Note">
 		SELECT * 
@@ -25,4 +26,14 @@
 		VALUES
 		(#{cn_note_id},#{cn_notebook_id},#{cn_user_id},'1','1',#{cn_note_title},'',#{cn_note_create_time},#{cn_note_last_modify_time})
 	</insert>
+	<update id="updateNoteStatusId" parameterType="string">
+		UPDATE cn_note
+		SET cn_note_status_id='2'
+		WHERE cn_note_id=#{noteId}
+	</update>
+	<update id="updateBookId" parameterType="map">
+		UPDATE cn_note
+		SET cn_notebook_id=#{bookId}
+		WHERE cn_note_id=#{noteId}
+	</update>
 </mapper>

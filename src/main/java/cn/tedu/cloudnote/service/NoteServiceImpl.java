@@ -1,6 +1,7 @@
 package cn.tedu.cloudnote.service;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +71,33 @@ public class NoteServiceImpl implements Serializable, NoteService {
 		}else{
 			lr.setStatus(1);
 			lr.setMsg("笔记添加失败");
+		}
+		return lr;
+	}
+	public LoginResult deleteNote(String noteId) {
+		int rows=dao.updateNoteStatusId(noteId);
+		LoginResult lr=new LoginResult();
+		if(rows>0){
+			lr.setStatus(0);
+			lr.setMsg("笔记删除成功");
+		}else{
+			lr.setStatus(1);
+			lr.setMsg("笔记删除失败");
+		}
+		return lr;
+	}
+	public LoginResult moveNote(String bookId, String noteId) {
+		Map map=new HashMap();
+		map.put("bookId",bookId);
+		map.put("noteId", noteId);
+		int rows=dao.updateBookId(map);
+		LoginResult lr=new LoginResult();
+		if(rows>0){
+			lr.setStatus(0);
+			lr.setMsg("笔记移动成功");
+		}else{
+			lr.setStatus(1);
+			lr.setMsg("笔记移动失败");
 		}
 		return lr;
 	}

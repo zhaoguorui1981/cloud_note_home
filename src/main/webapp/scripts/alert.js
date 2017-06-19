@@ -1,3 +1,34 @@
+//弹出移动note对话框,加载select列表
+function alertMoveNoteWindow(){
+	$('#can').load("alert/alert_move.html",function(){
+		var lis=$('#book_ul li');
+		for (var i = 0; i < lis.length; i++) {
+			var name=$(lis[i]).text().trim();
+			var bookId=$(lis[i]).data('notebookId');
+			var opt='';
+			opt+='<option value='+bookId+'>'+name+'</option>';
+			$('#moveSelect').append($(opt));
+		}
+	})
+	$('.opacity_bg').show();
+}
+//弹出删除note对话框
+function alertDeleteNoteWindow(){
+	$('#can').load("alert/alert_delete_note.html")
+	$('.opacity_bg').show();
+}
+//弹出note编辑按钮
+function showMenuBar(){
+	$('#note_ul div').hide();
+	$(this).parent().next().slideDown(500);
+	$('#note_ul').find('a').removeClass();
+	$(this).parent().addClass('checked');
+	return false;
+}
+//关闭note编辑按钮
+function closeMenuBar(){
+	$('#note_ul div').hide();
+}
 //调用增加笔记对话框
 function addNoteWindow(){
 	var lis=$('#book_ul a.checked')

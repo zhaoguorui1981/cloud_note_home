@@ -1,3 +1,65 @@
+//移动note至其他笔记本
+function moveNote(){
+	//获取请求参数	
+	var $li=$('#note_ul a.checked').parent();
+	var noteId=$li.data('noteId');
+	var bookId=$('#moveSelect').val();
+	//校验请求参数
+	var ok=true;
+	if(!noteId){
+		alert("请选择笔记");
+		ok=false;
+	}
+	if(!bookId || bookId=='none'){
+		$('#movenote_msg').html('请选择笔记本').css({"color":"red"})
+		ok=false;
+	}
+	if(ok){
+		$.ajax({
+			url:base_path+"/note/move.do",
+			type:"post",
+			data:{"noteId":noteId,"bookId":bookId},
+			dataType:"json",
+			success:function(result){
+				if(result.status==0){
+					closeWindow();
+					$li.remove();
+					alert(result.msg);
+				}
+			},
+			error:function(){alert("移动笔记异常")}
+		})
+	}
+}		
+//删除当前note
+function deleteNote(){
+	//获取请求参数
+	var $li=$('#note_ul a.checked').parent();
+	var noteId=$li.data('noteId');
+	//校验请求参数
+	var ok=true;
+	if(!noteId){
+		alert("请选择笔记");
+		ok=false;
+	}
+	//发送请求参数
+	if(ok){
+		$.ajax({
+			url:base_path+"/note/delete.do",
+			type:"post",
+			data:{"noteId":noteId},
+			dataType:"json",
+			success:function(result){
+				if(result.status==0){
+					closeWindow();
+					$li.remove();
+					alert(result.msg);
+				}
+			},
+			error:function(){alert("删除笔记异常")}
+		})
+	}
+}
 //添加笔记标题
 function addNote(){
 		//获取请求参数
