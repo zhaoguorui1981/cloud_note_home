@@ -14,4 +14,5 @@ public interface NoteDAO {
 	public int saveNote(Note note);
 	public int updateNoteStatusId(String noteId);
 	public int updateBookId(Map map);
+	public int updateNoteTypeId(String noteId);
 }

@@ -9,4 +9,6 @@ public interface NoteService {
 	public LoginResult addNote(String userId,String bookId,String title);
 	public LoginResult deleteNote(String noteId);
 	public LoginResult moveNote(String bookId,String noteId);
+	public LoginResult shareNote(String noteId);
+	public LoginResult searchNote(String keyword);
 }

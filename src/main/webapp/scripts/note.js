@@ -1,3 +1,72 @@
+//16.搜索笔记
+function searchNote(){
+		//获取请求参数
+		var keyword=$('#search_note').val().trim();
+		//发送ajax请求
+		$.ajax({
+			url:base_path+"/note/search.do",
+			type:"post",
+			data:{"keyword":keyword},
+			dataType:"json",
+			success:function(result){
+				if(result.status==0){
+					$('#pc_part_6 ul').empty();
+					hideNoteWindow();
+					$('#pc_part_6').show();
+					var notes=result.data;
+					for (var i = 0; i < notes.length; i++) {
+						var title=notes[i].cn_share_title;
+						var shareId=notes[i].cn_share_id;
+						var sli=""
+							sli+='<li class="online">';
+							sli+='		<a>';
+							sli+='			<i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i>';
+							sli+=           title;
+							sli+='			<button type="button" class="btn btn-default btn-xs btn_position btn_slide_down">';
+							sli+='				<i class="fa fa-star"></i>';
+							sli+='			</button>';
+							sli+='		</a>';
+							sli+='</li>';
+						var $li=$(sli);
+						//为笔记绑定ID
+							$li.data("shareId",shareId);
+							$('#pc_part_6 ul').append($li);
+					}
+				}
+			},
+			error:function(){alert("搜索异常")}
+		})
+}
+//15.分享笔记
+function shareNote(){
+	//获取请求参数
+	var $li=$(this).parents('li');
+	var noteId=$li.data('noteId');
+	//校验请求参数
+	var ok=true;
+	if(!noteId){
+		alert("请选择笔记");
+		ok=false;
+	}
+	//发送请求
+	if(ok){
+		$.ajax({
+			url:base_path+"/note/share.do",
+			type:"post",
+			data:{"noteId":noteId},
+			dataType:"json",
+			success:function(result){
+				alert(result.msg);
+				if(result.status==0){
+					var si=''
+					si+='<i class="fa fa-sitemap"></i>';
+					$li.find('button.btn_slide_down').before($(si));
+				}
+			},
+			error:function(){alert("分享异常")}
+		})
+	}
+}
 //移动note至其他笔记本
 function moveNote(){
 	//获取请求参数	
@@ -128,13 +197,21 @@ function loadNotes(){
 		dataType:"json",
 		success:function(result){
 			if(result.status==0){
+				hideNoteWindow()
+				$('#pc_part_2').show();
 				var notes=result.data;//获取返回笔记集合
 				$('#note_ul').empty();//清空笔记列表
 				for (var i = 0; i < notes.length; i++) {
 					var notetitle=notes[i].cn_note_title;//获取笔记名称
 					var noteId=notes[i].cn_note_id;//获取笔记ID
+					var typeId=notes[i].cn_note_type_id;
 					//插入笔记
 					createNoteLi(notetitle,noteId);
+					if(typeId==2){
+						var si=''
+							si+='<i class="fa fa-sitemap"></i>';
+						$('#note_ul li:last').find('button.btn_slide_down').before($(si));
+					}
 				} 
 			}
 		},
@@ -237,4 +314,13 @@ function createNoteLi(notetitle,noteId){
 	//为笔记绑定ID
 		$li.data("noteId",noteId);
 		$('#note_ul').append($li);
+}
+
+//关闭笔记区所有层
+function hideNoteWindow(){
+	$('#pc_part_2').hide();
+	$('#pc_part_4').hide();
+	$('#pc_part_6').hide();
+	$('#pc_part_7').hide();
+	$('#pc_part_8').hide();
 }

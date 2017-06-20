@@ -57,9 +57,13 @@
 				//14.弹出note移动对话框&绑定移动确定按钮移动当前note
 				$('#note_ul').on('click','.btn_move',alertMoveNoteWindow);
 				$('#can').on('click','#btn_movenote',moveNote);
-				
+				//15.弹出note分享对话框&绑定按钮分享当前note
+				$('#note_ul').on('click','.btn_share',shareNote);
+				//16.绑定搜索框回车按钮事件
+				$('#search_note').keydown(function(event){if(event.keyCode==13) searchNote();})
 			})
-
+	
+			
 		</script>
     </head>
     <body class="animated fadeIn">
