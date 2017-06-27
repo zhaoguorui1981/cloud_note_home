@@ -7,12 +7,14 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.tedu.cloudnote.dao.NotebookDAO;
 import cn.tedu.cloudnote.entity.Notebook;
 import cn.tedu.cloudnote.util.LoginResult;
 import cn.tedu.cloudnote.util.NoteUtil;
 @Service("notebookService")
+@Transactional
 public class NotebookServiceImpl implements Serializable, NotebookService {
 	@Resource(name="notebookDAO")
 	private NotebookDAO dao;

@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.tedu.cloudnote.dao.NoteDAO;
 import cn.tedu.cloudnote.dao.ShareDAO;
@@ -16,6 +17,7 @@ import cn.tedu.cloudnote.entity.Share;
 import cn.tedu.cloudnote.util.LoginResult;
 import cn.tedu.cloudnote.util.NoteUtil;
 @Service("noteService")
+@Transactional
 public class NoteServiceImpl implements Serializable, NoteService {
 	@Resource(name="noteDAO")
 	private NoteDAO dao;

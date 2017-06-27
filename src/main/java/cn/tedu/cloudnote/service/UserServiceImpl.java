@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.tedu.cloudnote.dao.UserDAO;
 import cn.tedu.cloudnote.entity.User;
@@ -12,6 +13,7 @@ import cn.tedu.cloudnote.util.LoginResult;
 import cn.tedu.cloudnote.util.NoteException;
 import cn.tedu.cloudnote.util.NoteUtil;
 @Service("UserService")
+@Transactional
 public class UserServiceImpl implements Serializable, UserService {
 	@Resource(name="UserDAO")
 	private UserDAO userdao;
@@ -54,6 +56,8 @@ public class UserServiceImpl implements Serializable, UserService {
 			user.setCn_user_password(NoteUtil.md5(password));
 			user.setCn_user_id(NoteUtil.createId());
 			userdao.save(user);
+			String s=null;
+			s.length();
 			lr.setStatus(0);
 			lr.setMsg("注册成功");
 			return lr;
