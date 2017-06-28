@@ -21,5 +21,6 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	<context:component-scan base-package="cn.tedu.cloudnote"/>
 	<mvc:annotation-driven/>
-	<aop:aspectj-autoproxy/>
+	<context:component-scan base-package="cn.tedu.cloudnote.aop"/>
+	<aop:aspectj-autoproxy/> 
 </beans>

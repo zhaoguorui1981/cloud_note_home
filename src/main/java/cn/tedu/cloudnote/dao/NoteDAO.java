@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import cn.tedu.cloudnote.entity.Note;
 @Repository("noteDAO")
 public interface NoteDAO {
+	public List<Note> findNotes(Note note);
 	public List<Map> findNotesByNotebookId(String notebookId);
 	public Note findNoteByNoteId(String noteId);
 	public int updateNote(Note note);

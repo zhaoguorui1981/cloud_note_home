@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="scripts/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/basevalue.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#search_btn").click(function(){
+			var title=$("#title").val().trim();
+			var statusid=$("select").val();
+			var createTime=$("#createTime").val();
+			var modifyTime=$("#modifyTime").val();
+			$.ajax({
+				url:base_path+"/note/searchnotes.do",
+				type:"post",
+				data:{"title":title,
+					  "statusid":statusid,
+					  "createTime":createTime,
+					  "modifyTime":modifyTime},	
+				dataType:"json",
+				success:function(result){
+					if(result.status==0){
+						$('table').empty();
+						var notes=result.data;
+						for (var i = 0; i < notes.length; i++) {
+							var title=notes[i].cn_note_title;
+							var body=notes[i].cn_note_body;
+							var sli='';
+							sli+='<tr>';
+							sli+='  <td>'+title+'</td>';
+							sli+='  <td>'+body+'</td>';
+							sli+='</tr>';
+							$('table').append(sli);
+						}
+					}
+				},
+				erroe:function(){alert("搜索异常");}
+			})
+		})
+	})
+</script>
+</head>
+<body>
+	<div>
+		标题:<input type="text" id="title"/>
+			<select>
+			<option value='0'>全部</option>
+			<option value='1'>正常</option>
+			<option value='2'>删除</option>
+		</select>
+	</div>
+	<div>
+		创建时间:<input type="text" id="createTime"/>
+	</div>
+	<div>
+		修改时间:<input type="text" id="modifyTime"/>
+	</div>
+	<div>
+		<input type="button" value="查询" id="search_btn"/>
+	</div>
+	<table></table>
+</body>
+</html>

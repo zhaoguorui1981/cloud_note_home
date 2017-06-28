@@ -55,5 +55,10 @@
   <artifactId>commons-codec</artifactId>
   <version>1.6</version>
 </dependency>
+<dependency>
+  <groupId>org.aspectj</groupId>
+  <artifactId>com.springsource.org.aspectj.weaver</artifactId>
+  <version>1.6.1</version>
+</dependency>
 </dependencies>
 </project>

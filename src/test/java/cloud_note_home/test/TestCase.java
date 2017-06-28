@@ -1,8 +1,13 @@
 package cloud_note_home.test;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 
 import cloud_note_home.init.BaseTest;
@@ -15,7 +20,15 @@ import cn.tedu.cloudnote.service.UserService;
 
 public class TestCase extends BaseTest{
 	
-	
+	@Test
+	public void test() throws SQLException{
+		DataSource ds=ac.getBean("ds",DataSource.class);
+		Connection con=ds.getConnection();
+		System.out.println(con);
+		con.close();
+		SqlSessionFactory factory=ac.getBean("ssfb",SqlSessionFactory.class);
+		System.out.println(factory.openSession());
+	}
 	@Test
 	//测试UserDAO
 	public void test1(){
