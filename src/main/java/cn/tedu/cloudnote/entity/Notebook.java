@@ -10,6 +10,14 @@ public class Notebook implements Serializable{
 	private String cn_notebook_name;
 	private String cn_notebook_desc;
 	private Timestamp cn_notebook_createtime;
+	private User user;
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public String getCn_notebook_id() {
 		return cn_notebook_id;
 	}	

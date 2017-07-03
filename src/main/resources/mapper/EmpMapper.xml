@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.cloudnote.dao.EmpDAO">
+	<insert id="saveEmp" parameterType="cn.tedu.cloudnote.entity.Emp" useGeneratedKeys="true" keyProperty="no">
+		INSERT INTO t_emp
+		(name)
+		VALUES
+		(#{name})
+	</insert>
+	<!-- oracle数据库的主键一般为序列,方法如下 -->
+	
+	<insert id="savaEmp-1" parameterType="cn.tedu.cloudnote.entity.Emp">
+		<selectKey keyProperty="no" order="BEFORE" resultType="int">
+		 	SELECT emp_sql.nextval from dual
+		</selectKey>
+		INSERT INTO t_emp
+		(no,name)
+		VALUES
+		(#{no},#{name})
+	</insert>
+</mapper>

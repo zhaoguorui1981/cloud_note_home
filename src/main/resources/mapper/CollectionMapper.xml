@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.cloudnote.dao.UserDAO">
+<!-- 多项查询,要一次性与数据库交互一次 -->
+	<select id="findAllUser" resultMap="usermap2">
+		SELECT *
+		FROM cn_user u left outer JOIN cn_notebook n ON (u.cn_user_id=n.cn_user_id)
+	</select>
+	<resultMap type="cn.tedu.cloudnote.entity.User" id="usermap2">
+		<id property="cn_user_id" column="cn_user_id"/>
+		<result property="cn_user_name" column="cn_user_name"/>
+		<result property="cn_user_password" column="cn_user_password"/>
+		<result property="cn_user_token" column="cn_user_token"/>
+		<result property="cn_user_nick" column="cn_user_nick"/>
+		<collection property="books" javaType="java.util.List" ofType="cn.tedu.cloudnote.entity.Notebook">
+			<id property="cn_notebook_id" column="cn_notebook_id"/>
+			<result property="cn_notebook_type_id" column="cn_notebook_type_id" />
+			<result property="cn_notebook_name" column="cn_notebook_name" />
+			<result property="cn_notebook_desc" column="cn_notebook_desc" />
+			<result property="cn_notebook_createtime" column="cn_notebook_createtime" />
+		</collection>
+	</resultMap>
+<!-- 查单独一个,分开写也可以做到数据库交互一次 -->
+	<select id="findByUserId" parameterType="string" resultMap="usermap1">
+		SELECT * FROM cn_user
+		WHERE cn_user_id=#{userid}
+	</select>
+	<resultMap type="cn.tedu.cloudnote.entity.User" id="usermap1">
+		<collection property="books" javaType="java.util.List" ofType="cn.tedu.cloudnote.entity.Notebook"
+					select="users1" column="cn_user_id"></collection>
+	</resultMap>
+	<select id="users1" parameterType="string" resultType="cn.tedu.cloudnote.entity.Notebook">
+		SELECT * FROM cn_notebook
+		WHERE cn_user_id=#{userid}
+	</select>
+</mapper>
